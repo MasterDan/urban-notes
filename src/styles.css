@@ -37,6 +37,7 @@
 .row {
   display: flex;
   justify-content: center;
+  gap: 0.5rem;
 }
 
 a {
@@ -107,3 +108,4 @@ button {
     background-color: #0f0f0f69;
   }
 }
+

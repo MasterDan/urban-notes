@@ -3,5 +3,5 @@
 **/.eslintrc.cjs
 **/jest.setup.js
 **/vite.config.ts
-**/*.vue
+**/postcss.config.js
 vitest.workspace.ts
