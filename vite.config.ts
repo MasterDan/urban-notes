@@ -1,8 +1,12 @@
-import { defineConfig } from "vite";
+import { defineConfig } from 'vite';
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
-
+  esbuild: {
+    jsxInject: `import { h, Fragment } from '@rexar/core'`,
+    jsxFactory: 'h',
+    jsxFragment: 'Fragment',
+  },
   // Vite options tailored for Tauri development and only applied in `tauri dev` or `tauri build`
   //
   // 1. prevent vite from obscuring rust errors
@@ -13,7 +17,8 @@ export default defineConfig(async () => ({
     strictPort: true,
     watch: {
       // 3. tell vite to ignore watching `src-tauri`
-      ignored: ["**/src-tauri/**"],
+      ignored: ['**/src-tauri/**'],
     },
   },
 }));
+
