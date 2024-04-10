@@ -1,3 +1,5 @@
+import { BaseProps } from '@rexar/core';
+
 type AnyRecord = Record<string, unknown>;
 
 export type ComponentConfig<
@@ -29,3 +31,4 @@ export type UiConfigSeed<TThemes extends string> =
   | UiConfig<TThemes>
   | (() => ThemeConfig | UiConfig<TThemes>);
 
+export type HeadlessProps = BaseProps;

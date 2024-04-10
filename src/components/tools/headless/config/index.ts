@@ -1,5 +1,5 @@
+import { createProvider } from '@rexar/core';
 import { ThemeConfig, UiConfig, UiConfigSeed } from './@types';
-import { HeadlessContext } from './context';
 
 function isThemeConfig<TThemes extends string>(
   config: ThemeConfig | UiConfig<TThemes>,
@@ -7,11 +7,9 @@ function isThemeConfig<TThemes extends string>(
   return !('default' in config);
 }
 
-let context: HeadlessContext<string, UiConfig<string>> | undefined;
-
 export function defineConfig<TThemes extends string = 'default'>(
   seed: UiConfigSeed<TThemes>,
-) {
+): UiConfig<TThemes> {
   const seedObj = typeof seed === 'function' ? seed() : seed;
   let finalConfiguration: UiConfig<TThemes> | undefined;
   if (isThemeConfig(seedObj)) {
@@ -21,36 +19,10 @@ export function defineConfig<TThemes extends string = 'default'>(
   } else {
     finalConfiguration = seedObj;
   }
-  context = new HeadlessContext(finalConfiguration) as HeadlessContext<
-    string,
-    UiConfig<string>
-  >;
-
-  const setTheme = (t: TThemes) => {
-    context?.setTheme(t);
-  };
-
-  return { setTheme };
+  return finalConfiguration;
 }
 
-defineConfig({
-  default: {
-    frame: {
-      classes: {
-        rounded: 'x',
-      },
-      props: {
-        rounded: true,
-      },
-    },
-  },
-  dark: {},
-});
+export const configProvider = createProvider<UiConfig<string>>();
 
-export function getCurrentTheme() {
-  if (context == null) {
-    throw new Error('Conext is not defined');
-  }
-  return context.currentTheme$;
-}
+export const themeProvider = createProvider<string>('default');
 
