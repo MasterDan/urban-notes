@@ -7,7 +7,7 @@ export type ComponentConfig<
   TClasses extends AnyRecord,
 > = { props: TProps; classes: TClasses };
 
-export type FrameConfig = ComponentConfig<
+export type CardConfig = ComponentConfig<
   {
     rounded: boolean;
   },
@@ -17,7 +17,7 @@ export type FrameConfig = ComponentConfig<
 >;
 
 export type ThemeConfig = {
-  frame: FrameConfig;
+  card: CardConfig;
 };
 
 export type ComponentName = keyof ThemeConfig;
@@ -32,3 +32,4 @@ export type UiConfigSeed<TThemes extends string> =
   | (() => ThemeConfig | UiConfig<TThemes>);
 
 export type HeadlessProps = BaseProps;
+

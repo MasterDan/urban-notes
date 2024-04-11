@@ -1,19 +1,30 @@
 import { defineComponent } from '@rexar/core';
-import { Counter } from './Counter';
-import { Container } from './Container';
-import { Greetings } from './Greetings';
-import { GradientText } from './GradientText';
+import { HRoot } from './tools/headless/HRoot';
+import { defineConfig } from './tools/headless/config';
+import { HCard } from './tools/headless/HCard';
 
-export const App = defineComponent(() => (
-  <>
-    <Container>
-      <h1>Rexar App</h1>
-      <GradientText>Tailwind test</GradientText>
-      <Greetings />
-      <div>
-        <Counter />
-      </div>
-    </Container>
-  </>
-));
+export const App = defineComponent(() => {
+  const config = defineConfig({
+    card: {
+      classes: {
+        rounded: 'rounded-3xl',
+      },
+      props: {
+        rounded: true,
+      },
+    },
+  });
+  return (
+    <>
+      <HRoot
+        config={config}
+        content={() => (
+          <HCard>
+            <h1>Rexar app</h1>
+          </HCard>
+        )}
+      />
+    </>
+  );
+});
 

@@ -1,4 +1,4 @@
-import { createProvider } from '@rexar/core';
+import { Ref, computed, createProvider, ref } from '@rexar/core';
 import { ThemeConfig, UiConfig, UiConfigSeed } from './@types';
 
 function isThemeConfig<TThemes extends string>(
@@ -24,5 +24,17 @@ export function defineConfig<TThemes extends string = 'default'>(
 
 export const configProvider = createProvider<UiConfig<string>>();
 
-export const themeProvider = createProvider<string>('default');
+export const themeProvider = createProvider<Ref<string>>(ref('default'));
+
+export const useCurrentTheme = () => {
+  const config = configProvider.inject();
+  if (config == null) {
+    throw new Error('Headless config was not defined');
+  }
+  const theme$ = themeProvider.inject();
+  return computed<ThemeConfig>(() => ({
+    ...config.default,
+    ...(config[theme$.value] ?? {}),
+  }));
+};
 

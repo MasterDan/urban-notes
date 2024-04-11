@@ -1,17 +1,21 @@
-import { defineComponent } from '@rexar/core';
+import { Providable, defineComponent, ref, toObservable } from '@rexar/core';
 import { UiConfig } from './config/@types';
 import { configProvider, themeProvider } from './config';
+import { HLayers } from './HLayers';
 
 export const HRoot = defineComponent<{
   config: UiConfig<string>;
-  theme?: string;
+  theme?: Providable<string>;
   content: () => JSX.Element;
-}>(({ content: Content, config, theme }) => {
+}>(({ content, config, theme }) => {
   configProvider.provide(config);
+  const theme$ = ref('default');
   if (theme) {
-    themeProvider.provide(theme);
+    toObservable(theme).subscribe((t) => {
+      theme$.value = t;
+    });
   }
+  themeProvider.provide(theme$);
 
-  return <Content></Content>;
+  return <HLayers content={content} />;
 });
-
