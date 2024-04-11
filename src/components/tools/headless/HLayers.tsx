@@ -41,10 +41,11 @@ export const HLayers = defineComponent<{ content?: () => JSX.Element }>(
       <div style={{ position: 'relative', width: '100%', height: '100%' }}>
         <Layers
           each={({ item }) => {
-            const [Content, setContent] = useDynamic();
-            item
-              .pipe(switchMap((l) => l.content))
-              .subscribe((c) => setContent(c));
+            const [Dynamic, setContent] = useDynamic();
+
+            item.pipe(switchMap((l) => l.content)).subscribe((c) => {
+              setContent(c);
+            });
             return (
               <div
                 style={{
@@ -55,7 +56,7 @@ export const HLayers = defineComponent<{ content?: () => JSX.Element }>(
                   height: '100%',
                 }}
               >
-                <Content />
+                <Dynamic />
               </div>
             );
           }}

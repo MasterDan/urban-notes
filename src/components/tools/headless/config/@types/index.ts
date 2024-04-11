@@ -1,6 +1,11 @@
-import { BaseProps } from '@rexar/core';
+import { BaseProps, Providable } from '@rexar/core';
+import { AnyConfig } from '../map-config';
 
 type AnyRecord = Record<string, unknown>;
+
+export type HBaseProps = {
+  shadow?: Providable<string>;
+};
 
 export type ComponentConfig<
   TProps extends AnyRecord,
@@ -17,6 +22,9 @@ export type CardConfig = ComponentConfig<
 >;
 
 export type ThemeConfig = {
+  base: {
+    shadows: AnyConfig;
+  };
   card: CardConfig;
 };
 
@@ -27,9 +35,8 @@ export type UiConfig<TThemes extends string> = {
 } & { default: ThemeConfig };
 
 export type UiConfigSeed<TThemes extends string> =
-  | ThemeConfig
   | UiConfig<TThemes>
-  | (() => ThemeConfig | UiConfig<TThemes>);
+  | (() => UiConfig<TThemes>);
 
 export type HeadlessProps = BaseProps;
 
