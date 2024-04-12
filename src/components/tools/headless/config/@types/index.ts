@@ -39,4 +39,3 @@ export type UiConfigSeed<TThemes extends string> =
   | (() => UiConfig<TThemes>);
 
 export type HeadlessProps = BaseProps;
-

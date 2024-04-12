@@ -55,4 +55,3 @@ export const Greetings = defineComponent(() => (
     <GreetForm />
   </>
 ));
-

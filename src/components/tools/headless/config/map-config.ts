@@ -17,4 +17,3 @@ export class MapConfig<TMap extends Record<string, string>> {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyConfig = MapConfig<any>;
-

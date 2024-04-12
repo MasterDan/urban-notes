@@ -36,4 +36,3 @@ export const HCard = defineComponent<CardProps & HBaseProps>((props) => {
   });
   return <div class={classes}>{children}</div>;
 });
-

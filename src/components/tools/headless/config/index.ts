@@ -24,4 +24,3 @@ export const useCurrentTheme = () => {
     ...(config[theme$.value] ?? {}),
   }));
 };
-
