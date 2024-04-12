@@ -1,17 +1,18 @@
 import {
-  Providable,
+  ValueOrObservableOrGetter,
   defineComponent,
+  ref,
+  toObservable,
   toRef,
   useClasses,
   useDefaultValues,
 } from '@rexar/core';
 import { map } from 'rxjs';
 import { useCurrentTheme } from './config';
-import { createRef } from '../create-ref';
 import { HBaseProps } from './config/@types';
 
 export type CardProps = {
-  rounded?: Providable<boolean>;
+  rounded?: ValueOrObservableOrGetter<boolean>;
 };
 
 export const HCard = defineComponent<CardProps & HBaseProps>((props) => {
@@ -21,8 +22,8 @@ export const HCard = defineComponent<CardProps & HBaseProps>((props) => {
     rounded: () => () => theme$.value.card.props.rounded,
     shadow: () => defaultShadow$.value,
   });
-  const rounded$ = createRef(rounded, false);
-  const shadow$ = createRef(shadow);
+  const rounded$ = ref(false).fromObservable(toObservable(rounded));
+  const shadow$ = ref<string>().fromObservable(toObservable(shadow));
   const classes = useClasses(() => {
     const result: string[] = ['bg-red-700'];
     if (shadow$.value) {
