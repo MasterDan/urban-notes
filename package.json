@@ -11,7 +11,7 @@
     "prettier": "prettier src --write"
   },
   "dependencies": {
-    "@rexar/core": "^1.4.0",
+    "@rexar/core": "^1.5.0",
     "@tauri-apps/api": "^1",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",

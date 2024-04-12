@@ -1,10 +1,10 @@
-import { BaseProps, Providable } from '@rexar/core';
+import { BaseProps, ValueOrObservableOrGetter } from '@rexar/core';
 import { AnyConfig } from '../map-config';
 
 type AnyRecord = Record<string, unknown>;
 
 export type HBaseProps = {
-  shadow?: Providable<string>;
+  shadow?: ValueOrObservableOrGetter<string>;
 };
 
 export type ComponentConfig<

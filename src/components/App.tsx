@@ -1,7 +1,7 @@
 import { defineComponent } from '@rexar/core';
 import { HRoot } from './tools/headless/HRoot';
 import { HCard } from './tools/headless/HCard';
-import { config, shadows } from './app-config';
+import { config, shadows } from './App.config';
 
 export const App = defineComponent(() => (
   <>

@@ -6,8 +6,8 @@ settings:
 
 dependencies:
   '@rexar/core':
-    specifier: ^1.4.0
-    version: 1.4.0
+    specifier: ^1.5.0
+    version: 1.5.0
   '@tauri-apps/api':
     specifier: ^1
     version: 1.5.3
@@ -392,12 +392,12 @@ packages:
     dev: false
     optional: true
 
-  /@rexar/core@1.4.0:
-    resolution: {integrity: sha512-gZky+QzhiDB0oMMFRlL/ITZ2TI/vIZV2FCYjzG4cqvM5W4GAjHsd8lQLLeK1ejD+iYMKUi3RlSQK5GVYKA3XcQ==}
+  /@rexar/core@1.5.0:
+    resolution: {integrity: sha512-5xuD08oKFFHt5DybqgGSWGYr/ELWJG3nfHt655hv8vc3PLeM98aSGf0qqNzPL0qwviwS83oKln9+UqZMcOzQOw==}
     dependencies:
-      '@rexar/jsx': 1.4.0
-      '@rexar/reactivity': 1.4.0
-      '@rexar/tools': 1.4.0
+      '@rexar/jsx': 1.5.0
+      '@rexar/reactivity': 1.5.0
+      '@rexar/tools': 1.5.0
       fast-array-diff: 1.1.0
       rxjs: 7.8.1
       vite: 5.2.8
@@ -411,24 +411,24 @@ packages:
       - terser
     dev: false
 
-  /@rexar/jsx@1.4.0:
-    resolution: {integrity: sha512-NKuLc+EA5vdcl5mJd3yNRxJWBAkp3sFk4BbSY6etFz2PrynQy2iWi1ra+X17cBEvGs2iXqN/xUxPkRpty/sCRw==}
+  /@rexar/jsx@1.5.0:
+    resolution: {integrity: sha512-uR2y4/T1calj/GkaMh1DihGxj+X62iDFYJpGl6Yzd/2FWnNqevZTMPgaTMF4H2LzCC8MivX5x8FP+a2w860WXA==}
     dependencies:
-      '@rexar/reactivity': 1.4.0
-      '@rexar/tools': 1.4.0
+      '@rexar/reactivity': 1.5.0
+      '@rexar/tools': 1.5.0
       rxjs: 7.8.1
       tsx-dom-types: 1.0.0
     dev: false
 
-  /@rexar/reactivity@1.4.0:
-    resolution: {integrity: sha512-G9g9aVOztohThtGLtC/NztlOI8qO3ohJKkvrEQ5Qf3/xJzbgzZmlov4laD7WCIWOuZ/JD2IfGtbpuMGqaW/Ddw==}
+  /@rexar/reactivity@1.5.0:
+    resolution: {integrity: sha512-2myOE2r5vket/kfbvYPoeABEw3aj08XinKYOzrAGsCxPLVOkBP5PeD5OZflhIse5RYUkRbDaqitjNJvplDbMbQ==}
     dependencies:
-      '@rexar/tools': 1.4.0
+      '@rexar/tools': 1.5.0
       rxjs: 7.8.1
     dev: false
 
-  /@rexar/tools@1.4.0:
-    resolution: {integrity: sha512-GYpQZfeSUbwejUZGALO9pj8AZqrqMGHstPuCnLtZjxoKbiXleD9Ld6PBYwIr1+PQZBisMIFo3DjVnbWdikfXAg==}
+  /@rexar/tools@1.5.0:
+    resolution: {integrity: sha512-z5/NtUByCAPZeMsAiUTtbgo0G6AeG3Jx84KJOgiD1hdgRrKpN4CgtpISuQuuc3VU7WQvp71NWZ1EdEYAYKi2Rw==}
     dev: false
 
   /@rollup/rollup-android-arm-eabi@4.14.1:
