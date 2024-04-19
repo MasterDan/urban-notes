@@ -11,7 +11,7 @@
     "prettier": "prettier src --write"
   },
   "dependencies": {
-    "@rexar/core": "^1.5.0",
+    "@rexar/core": "^1.5.1",
     "@tauri-apps/api": "^1",
     "autoprefixer": "^10.4.19",
     "postcss": "^8.4.38",
@@ -21,6 +21,7 @@
   },
   "devDependencies": {
     "@tauri-apps/cli": "^1",
+    "@types/node": "^20.12.7",
     "@typescript-eslint/eslint-plugin": "^7.6.0",
     "@typescript-eslint/parser": "^7.6.0",
     "eslint": "^8.57.0",

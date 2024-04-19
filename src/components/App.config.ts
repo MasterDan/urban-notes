@@ -12,10 +12,21 @@ export const shadows = new MapConfig(
   'none',
 );
 
+export const colors = new MapConfig(
+  {
+    background: 'bg-slate-900',
+    text: 'text-slate-400',
+  },
+  'background',
+);
+
 export const config = defineConfig({
   default: {
     base: {
       shadows,
+      borders: shadows,
+      colors,
+      spacing: shadows,
     },
     card: {
       classes: {

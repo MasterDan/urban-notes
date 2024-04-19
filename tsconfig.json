@@ -22,6 +22,11 @@
     "noFallthroughCasesInSwitch": true,
     /* JSX */
     "jsx": "preserve",
+    "paths": {
+      "@src/*": [
+        "./src/*"
+      ]
+    }
   },
   "include": [
     "src",

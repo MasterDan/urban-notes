@@ -21,14 +21,17 @@ export type CardConfig = ComponentConfig<
   }
 >;
 
-export type ThemeConfig = {
-  base: {
-    shadows: AnyConfig;
-  };
-  card: CardConfig;
+export type BaseConfig = {
+  shadows: AnyConfig;
+  borders: AnyConfig;
+  colors: AnyConfig;
+  spacing: AnyConfig;
 };
 
-export type ComponentName = keyof ThemeConfig;
+export type ThemeConfig = {
+  base: BaseConfig;
+  card: CardConfig;
+};
 
 export type UiConfig<TThemes extends string> = {
   [TKey in TThemes]: Partial<ThemeConfig>;

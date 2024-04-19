@@ -1,7 +1,13 @@
 import { defineConfig } from 'vite';
+import path from 'path';
 
 // https://vitejs.dev/config/
 export default defineConfig(async () => ({
+  resolve: {
+    alias: {
+      '@src': path.resolve(__dirname, './src'),
+    },
+  },
   esbuild: {
     jsxInject: `import { h, Fragment } from '@rexar/core'`,
     jsxFactory: 'h',
@@ -21,4 +27,3 @@ export default defineConfig(async () => ({
     },
   },
 }));
-
