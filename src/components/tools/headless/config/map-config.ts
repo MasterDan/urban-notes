@@ -19,16 +19,24 @@ export class MapConfig<TMap extends Record<string, string>> {
     return this.get(this.defaultValue);
   }
 
-  get(...keys: (keyof TMap)[]): string {
+  get<TKeys extends (keyof TMap)[]>(...keys: TKeys): string[] {
     return keys.length === 0
       ? this.getDefault()
-      : keys.map((key) => this.map[key]).join(' ');
+      : keys.map((key) => this.map[key]);
   }
 
   withDefaultValue(defaultValue: DefaultValueOf<TMap>): MapConfig<TMap> {
     return new MapConfig(this.map, defaultValue);
   }
+
+  get keys() {
+    return Object.keys(this.map) as (keyof TMap)[];
+  }
 }
+
+const testConfig = new MapConfig({ foo: 'f', bar: 'b' }, 'foo');
+
+const x = testConfig.get('bar');
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type AnyConfig = MapConfig<any>;
