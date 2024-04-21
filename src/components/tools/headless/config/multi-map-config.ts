@@ -1,12 +1,12 @@
-import { ValueOrObservableOrGetter, toObservable } from '@rexar/core';
-import { MapConfig } from './map-config';
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type AnyConfig = MapConfig<any>;
+import {
+  ValueOrObservableOrGetter,
+  toObservable,
+  useClasses,
+} from '@rexar/core';
+import { Observable } from 'rxjs';
+import { AnyConfig, MapConfig, MapConfigKeys } from './map-config';
 
 export type MayBeArray<T> = T | T[];
-
-export type MapConfigKeys<TConfig extends AnyConfig> = keyof TConfig['keys'];
 
 export type ConfigMap = Record<string, AnyConfig>;
 
@@ -17,18 +17,30 @@ export type ComponentProps<TMap extends ConfigMap> = {
 };
 
 export class MultiMapConfig<TMap extends ConfigMap> {
-  constructor(private body: TMap) {}
+  constructor(public innerMap: TMap) {}
 
   get<TKey extends keyof TMap>(key: TKey) {
-    return this.body[key];
+    return this.innerMap[key];
   }
 
-  cretePropsExtractors() {
-    return (props: ComponentProps<TMap>) => {
-      (Object.keys(props) as (keyof typeof props)[]).map((key) => {
-        const propValue = props[key] ?? this.body[key].get();
-        toObservable(propValue).pipe();
-      });
-    };
+  propsToClasses(props: ComponentProps<TMap>) {
+    const observables = (Object.keys(props) as (keyof typeof props)[]).map(
+      (key) => {
+        const propValue = props[key] ?? this.innerMap[key].get();
+        return toObservable(propValue) as Observable<MayBeArray<string>>;
+      },
+    );
+    return useClasses(observables);
   }
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnyMultiMapConfig = MultiMapConfig<any>;
+
+export type MultiMapProps<TMap extends AnyMultiMapConfig> = {
+  [TKey in keyof TMap['innerMap']]:
+    | ValueOrObservableOrGetter<
+        MayBeArray<MapConfigKeys<TMap['innerMap'][TKey]>>
+      >
+    | undefined;
+};
