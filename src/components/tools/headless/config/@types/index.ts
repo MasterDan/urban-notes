@@ -1,43 +1,45 @@
-import { BaseProps, ValueOrObservableOrGetter } from '@rexar/core';
-import { AnyConfig } from '../map-config';
+import { BaseProps } from '@rexar/core';
+import { AnyMapConfig } from '../map-config';
+import { MultiMapConfig } from '../multi-map-config';
 
-type AnyRecord = Record<string, unknown>;
+export type BaseConfig<
+  TShadows extends AnyMapConfig,
+  TBorders extends AnyMapConfig,
+> = MultiMapConfig<{
+  shadows: TShadows;
+  borders: TBorders;
+}>;
 
-export type HBaseProps = {
-  shadow?: ValueOrObservableOrGetter<string>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnyBaseConfig = BaseConfig<any, any>;
+
+export type ThemeConfig<TBase extends AnyBaseConfig> = {
+  base: TBase;
 };
 
-export type ComponentConfig<
-  TProps extends AnyRecord,
-  TClasses extends AnyRecord,
-> = { props: TProps; classes: TClasses };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnyThemeConfig = ThemeConfig<AnyBaseConfig>;
 
-export type CardConfig = ComponentConfig<
-  {
-    rounded: boolean;
-  },
-  {
-    rounded: string;
-  }
->;
-
-export type BaseConfig = {
-  shadows: AnyConfig;
-  borders: AnyConfig;
-  colors: AnyConfig;
-  spacing: AnyConfig;
+export type MultiThemeConfig<TThemeConfig extends AnyThemeConfig> = Record<
+  string,
+  TThemeConfig
+> & {
+  default: TThemeConfig;
 };
 
-export type ThemeConfig = {
-  base: BaseConfig;
-  card: CardConfig;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnyMultiThemeConfig = MultiThemeConfig<AnyThemeConfig>;
+
+export type UiConfig<TThemesMap extends AnyMultiThemeConfig> = {
+  [TKey in keyof TThemesMap]: Partial<TThemesMap[TKey]>;
+} & {
+  default: TThemesMap['default'];
 };
 
-export type UiConfig<TThemes extends string> = {
-  [TKey in TThemes]: Partial<ThemeConfig>;
-} & { default: ThemeConfig };
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type AnyUiConfig = UiConfig<any>;
 
-export type UiConfigSeed<TThemes extends string> =
+export type UiConfigSeed<TThemes extends AnyMultiThemeConfig> =
   | UiConfig<TThemes>
   | (() => UiConfig<TThemes>);
 

@@ -1,7 +1,13 @@
 import { Ref, computed, createProvider, ref } from '@rexar/core';
-import { ThemeConfig, UiConfig, UiConfigSeed } from './@types';
+import {
+  AnyMultiThemeConfig,
+  AnyThemeConfig,
+  AnyUiConfig,
+  UiConfig,
+  UiConfigSeed,
+} from './@types';
 
-export function defineConfig<TThemes extends string = 'default'>(
+export function defineConfig<TThemes extends AnyMultiThemeConfig>(
   seed: UiConfigSeed<TThemes>,
 ): UiConfig<TThemes> {
   const seedObj = typeof seed === 'function' ? seed() : seed;
@@ -9,7 +15,7 @@ export function defineConfig<TThemes extends string = 'default'>(
   return seedObj;
 }
 
-export const configProvider = createProvider<UiConfig<string>>();
+export const configProvider = createProvider<AnyUiConfig>();
 
 export const themeProvider = createProvider<Ref<string>>(ref('default'));
 
@@ -19,7 +25,7 @@ export const useCurrentTheme = () => {
     throw new Error('Headless config was not defined');
   }
   const theme$ = themeProvider.inject();
-  return computed<ThemeConfig>(() => ({
+  return computed<AnyThemeConfig>(() => ({
     ...config.default,
     ...(config[theme$.value] ?? {}),
   }));

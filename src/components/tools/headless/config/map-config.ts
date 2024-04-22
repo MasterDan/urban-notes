@@ -35,18 +35,7 @@ export class MapConfig<TMap extends Record<string, string>> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AnyConfig = MapConfig<any>;
+export type AnyMapConfig = MapConfig<any>;
 
-export type MapConfigKeys<TConfig extends AnyConfig> = TConfig['keys'][number];
-
-const testConfig = new MapConfig(
-  {
-    a: 'value-a',
-    b: 'value-b',
-  },
-  'a',
-);
-
-const pv: MapConfigKeys<typeof testConfig> = 'a';
-
-console.log(pv);
+export type MapConfigKeys<TConfig extends AnyMapConfig> =
+  TConfig['keys'][number];
