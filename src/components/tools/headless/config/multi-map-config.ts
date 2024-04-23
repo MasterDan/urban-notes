@@ -1,4 +1,5 @@
 import {
+  BaseProps,
   ValueOrObservableOrGetter,
   toObservable,
   useClasses,
@@ -11,10 +12,10 @@ export type MayBeArray<T> = T | T[];
 export type ConfigMap = Record<string, AnyMapConfig>;
 
 export type ComponentProps<TMap extends ConfigMap> = {
-  [TKey in keyof TMap]:
-    | ValueOrObservableOrGetter<MayBeArray<MapConfigKeys<TMap[TKey]>>>
-    | undefined;
-};
+  [TKey in keyof TMap]?: ValueOrObservableOrGetter<
+    MayBeArray<MapConfigKeys<TMap[TKey]>>
+  >;
+} & BaseProps;
 
 export class MultiMapConfig<TMap extends ConfigMap> {
   constructor(public $map: TMap) {}
@@ -24,13 +25,25 @@ export class MultiMapConfig<TMap extends ConfigMap> {
   }
 
   propsToClasses(props: ComponentProps<TMap>) {
-    const observables = (Object.keys(props) as (keyof typeof props)[]).map(
+    const observables = (Object.keys(this.$map) as (keyof typeof props)[]).map(
       (key) => {
-        const propValue = props[key] ?? this.$map[key].get();
+        const propValue = props[key]
+          ? this.$map[key].get(props[key] as string)
+          : this.$map[key].get();
+
         return toObservable(propValue) as Observable<MayBeArray<string>>;
       },
     );
-    return useClasses(observables);
+    return useClasses(observables) as Observable<string>;
+  }
+
+  mergeWith<TOtherMap extends ConfigMap>(
+    other: MultiMapConfig<TOtherMap>,
+  ): MultiMapConfig<TMap & TOtherMap> {
+    return new MultiMapConfig({
+      ...this.$map,
+      ...other.$map,
+    });
   }
 }
 

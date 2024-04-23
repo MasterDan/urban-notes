@@ -19,10 +19,10 @@ export class MapConfig<TMap extends Record<string, string>> {
     return this.get(this.defaultValue);
   }
 
-  get<TKeys extends (keyof TMap)[]>(...keys: TKeys): string[] {
+  get<TKeys extends (keyof TMap)[]>(...keys: TKeys): string {
     return keys.length === 0
       ? this.getDefault()
-      : keys.map((key) => this.map[key]);
+      : keys.map((key) => this.map[key]).join(' ');
   }
 
   withDefaultValue(defaultValue: DefaultValueOf<TMap>): MapConfig<TMap> {

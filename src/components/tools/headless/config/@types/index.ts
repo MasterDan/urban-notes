@@ -1,24 +1,38 @@
 import { BaseProps } from '@rexar/core';
 import { AnyMapConfig } from '../map-config';
-import { MultiMapConfig } from '../multi-map-config';
 
-export type BaseConfig<
+export type BaseConfigMap<
   TShadows extends AnyMapConfig,
   TBorders extends AnyMapConfig,
-> = MultiMapConfig<{
-  shadows: TShadows;
-  borders: TBorders;
-}>;
+  TBorderRadius extends AnyMapConfig,
+  TMargin extends AnyMapConfig,
+  TPadding extends AnyMapConfig,
+  TColor extends AnyMapConfig,
+> = {
+  shadow: TShadows;
+  border: TBorders;
+  borderRadius: TBorderRadius;
+  margin: TMargin;
+  padding: TPadding;
+  color: TColor;
+};
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AnyBaseConfig = BaseConfig<any, any>;
+export type AnyBaseConfigMap = BaseConfigMap<
+  AnyMapConfig,
+  AnyMapConfig,
+  AnyMapConfig,
+  AnyMapConfig,
+  AnyMapConfig,
+  AnyMapConfig
+>;
 
-export type ThemeConfig<TBase extends AnyBaseConfig> = {
-  base: TBase;
+export type ThemeConfig<TBaseMap extends AnyBaseConfigMap> = {
+  base: TBaseMap;
+  card?: Partial<TBaseMap>;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AnyThemeConfig = ThemeConfig<AnyBaseConfig>;
+export type AnyThemeConfig = ThemeConfig<AnyBaseConfigMap>;
 
 export type MultiThemeConfig<TThemeConfig extends AnyThemeConfig> = Record<
   string,

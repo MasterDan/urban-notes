@@ -1,11 +1,14 @@
 import { Ref, computed, createProvider, ref } from '@rexar/core';
+import { map, switchMap, tap } from 'rxjs';
 import {
+  AnyBaseConfigMap,
   AnyMultiThemeConfig,
   AnyThemeConfig,
   AnyUiConfig,
   UiConfig,
   UiConfigSeed,
 } from './@types';
+import { ComponentProps, MultiMapConfig } from './multi-map-config';
 
 export function defineConfig<TThemes extends AnyMultiThemeConfig>(
   seed: UiConfigSeed<TThemes>,
@@ -30,3 +33,28 @@ export const useCurrentTheme = () => {
     ...(config[theme$.value] ?? {}),
   }));
 };
+
+export function useComponentClasses<
+  TProps extends ComponentProps<AnyBaseConfigMap>,
+>(props: TProps, ...keys: string[]) {
+  const config$ = useCurrentTheme();
+  const classes$ = config$.pipe(
+    map((c) => {
+      let baseConfig = new MultiMapConfig(c.base);
+      (keys as (keyof typeof c)[]).forEach((key) => {
+        const componentConfig = c[key] as AnyBaseConfigMap | undefined;
+        if (componentConfig != null) {
+          baseConfig = baseConfig.mergeWith(
+            new MultiMapConfig(componentConfig),
+          );
+        }
+      });
+      return baseConfig;
+    }),
+    switchMap((c) => c.propsToClasses(props)),
+    tap((c) => {
+      console.log('classes are', c);
+    }),
+  );
+  return classes$;
+}

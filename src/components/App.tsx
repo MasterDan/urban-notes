@@ -1,20 +1,26 @@
 import { defineComponent } from '@rexar/core';
 import background from '@src/assets/wp7073803.jpg';
-import { HRoot } from './tools/headless/HRoot';
-import { HCard } from './tools/headless/HCard';
-import { config, shadows } from './App.config';
 import { HBack } from './tools/headless/HBack';
+import { Root } from './tools/styled/Root';
+import { Card } from './tools/styled/Card';
 
 export const App = defineComponent(() => (
   <>
-    <HRoot
-      config={config}
+    <Root
       content={() => (
         <div class="backdrop-blur bg-slate-800 bg-opacity-30 h-full">
-          <h1>ssss</h1>
-          <HCard shadow={shadows.get('xl')}>
+          <Card>
             <h1>Rexar app</h1>
-          </HCard>
+            <h1>Rexar app</h1>
+            <h1>Rexar app</h1>
+            <h1>Rexar app</h1>
+            <h1>Rexar app</h1>
+            <h1>Rexar app</h1>
+            <h1>Rexar app</h1>
+            <h1>Rexar app</h1>
+            <h1>Rexar app</h1>
+            <h1>Rexar app</h1>
+          </Card>
           <HBack>
             <img class="w-full h-full object-cover" src={background} />
           </HBack>
