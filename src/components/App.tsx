@@ -14,10 +14,12 @@ export const App = defineComponent(() => (
             <h1>Rexar app</h1>
             <h1>Rexar app</h1>
             <h1>Rexar app</h1>
-            <Flex direction={'row'}>
+            <Flex justifyContent={'evenly'} align={'center'} direction={'row'}>
               <h1>Rexar app</h1>
-              <h1>Rexar app</h1>
-              <h1>Rexar app</h1>
+              <div>
+                <h1>Rexar app</h1>
+                <h1>Rexar app</h1>
+              </div>
               <h1>Rexar app</h1>
             </Flex>
             <h1>Rexar app</h1>

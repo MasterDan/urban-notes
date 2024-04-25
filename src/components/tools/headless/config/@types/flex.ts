@@ -1,12 +1,12 @@
-import { AnyMapConfig } from '../map-config';
+import { AnyProp } from '../prop';
 
 export type FlexConfigMap<
-  TDisplay extends AnyMapConfig = AnyMapConfig,
-  TDirection extends AnyMapConfig = AnyMapConfig,
-  TGap extends AnyMapConfig = AnyMapConfig,
-  TJustifyItems extends AnyMapConfig = AnyMapConfig,
-  TJustifyContent extends AnyMapConfig = AnyMapConfig,
-  TAlign extends AnyMapConfig = AnyMapConfig,
+  TDisplay extends AnyProp = AnyProp,
+  TDirection extends AnyProp = AnyProp,
+  TGap extends AnyProp = AnyProp,
+  TJustifyItems extends AnyProp = AnyProp,
+  TJustifyContent extends AnyProp = AnyProp,
+  TAlign extends AnyProp = AnyProp,
 > = {
   display: TDisplay;
   direction: TDirection;
@@ -17,8 +17,8 @@ export type FlexConfigMap<
 };
 
 export type FlexItemConfigMap<
-  TGrow extends AnyMapConfig = AnyMapConfig,
-  TShrink extends AnyMapConfig = AnyMapConfig,
+  TGrow extends AnyProp = AnyProp,
+  TShrink extends AnyProp = AnyProp,
 > = {
   grow: TGrow;
   shrink: TShrink;

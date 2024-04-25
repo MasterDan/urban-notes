@@ -5,11 +5,11 @@ import {
   toObservable,
 } from '@rexar/core';
 import { Observable } from 'rxjs';
-import { AnyMultiThemeConfig, UiConfig } from './config/@types';
+import { MultiThemeConfig, UiConfig } from './config/@types';
 import { configProvider, themeProvider } from './config';
 import { HLayers } from './HLayers';
 
-export function defineRoot<TThemes extends AnyMultiThemeConfig>(
+export function defineRoot<TThemes extends MultiThemeConfig>(
   config: UiConfig<TThemes>,
 ) {
   return defineComponent<{

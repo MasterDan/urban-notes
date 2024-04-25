@@ -2,7 +2,7 @@ export type DefaultValueOf<TMap extends Record<string, string>> =
   | keyof TMap
   | [keyof TMap, ...(keyof TMap)[]];
 
-export class MapConfig<TMap extends Record<string, string>> {
+export class Prop<TMap extends Record<string, string>> {
   constructor(
     private map: TMap,
     private defaultValue: DefaultValueOf<TMap>,
@@ -25,8 +25,8 @@ export class MapConfig<TMap extends Record<string, string>> {
       : keys.map((key) => this.map[key]).join(' ');
   }
 
-  withDefaultValue(defaultValue: DefaultValueOf<TMap>): MapConfig<TMap> {
-    return new MapConfig(this.map, defaultValue);
+  withDefaultValue(defaultValue: DefaultValueOf<TMap>): Prop<TMap> {
+    return new Prop(this.map, defaultValue);
   }
 
   get keys() {
@@ -35,7 +35,6 @@ export class MapConfig<TMap extends Record<string, string>> {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AnyMapConfig = MapConfig<any>;
+export type AnyProp = Prop<any>;
 
-export type MapConfigKeys<TConfig extends AnyMapConfig> =
-  TConfig['keys'][number];
+export type MapConfigKeys<TConfig extends AnyProp> = TConfig['keys'][number];

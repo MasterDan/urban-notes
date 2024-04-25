@@ -1,9 +1,8 @@
 import { defineConfig } from './headless/config';
-import { FlexConfigMap } from './headless/config/@types/flex';
-import { MapConfig } from './headless/config/map-config';
+import { Prop } from './headless/config/prop';
 
 export const componentsConfig = defineConfig(() => {
-  const shadow = new MapConfig(
+  const shadow = new Prop(
     {
       'none': 'shadow-none',
       'sm': 'shadow-sm',
@@ -14,7 +13,7 @@ export const componentsConfig = defineConfig(() => {
     'none',
   );
 
-  const border = new MapConfig(
+  const border = new Prop(
     {
       '0': 'border-0',
       'default': 'border',
@@ -25,18 +24,21 @@ export const componentsConfig = defineConfig(() => {
     '0',
   );
 
-  const borderRadius = new MapConfig(
+  const borderRadius = new Prop(
     {
-      none: 'rounded-none',
-      sm: 'rounded-sm',
-      md: 'rounded-md',
-      lg: 'rounded-lg',
-      full: 'rounded-full',
+      'none': 'rounded-none',
+      'sm': 'rounded-sm',
+      'md': 'rounded-md',
+      'lg': 'rounded-lg',
+      'xl': 'rounded-xl',
+      '2xl': 'rounded-2xl',
+      '3xl': 'rounded-2xl',
+      'full': 'rounded-full',
     },
     'none',
   );
 
-  const color = new MapConfig(
+  const color = new Prop(
     {
       transparent: 'bg-transparent',
       background: 'bg-slate-900',
@@ -46,7 +48,7 @@ export const componentsConfig = defineConfig(() => {
     'transparent',
   );
 
-  const margin = new MapConfig(
+  const margin = new Prop(
     {
       '0': 'm-0',
       '0.5': 'm-0.5',
@@ -61,7 +63,7 @@ export const componentsConfig = defineConfig(() => {
     '0',
   );
 
-  const padding = new MapConfig(
+  const padding = new Prop(
     {
       '0': 'p-0',
       '0.5': 'p-0.5',
@@ -76,9 +78,9 @@ export const componentsConfig = defineConfig(() => {
     '0',
   );
 
-  const flex: FlexConfigMap = {
-    display: new MapConfig({ flex: 'flex' }, 'flex'),
-    direction: new MapConfig(
+  const flex = {
+    display: new Prop({ flex: 'flex' }, 'flex'),
+    direction: new Prop(
       {
         'row': 'flex-row',
         'row-reverse': 'flex-row-reverse',
@@ -87,11 +89,11 @@ export const componentsConfig = defineConfig(() => {
       },
       'row',
     ),
-    gap: new MapConfig(
+    gap: new Prop(
       { '1': 'gap-1', '2': 'gap-2', '3': 'gap-3', '4': 'gap-4' },
       '3',
     ),
-    justifyItems: new MapConfig(
+    justifyItems: new Prop(
       {
         start: 'justify-items-start',
         end: 'justify-items-end',
@@ -100,7 +102,7 @@ export const componentsConfig = defineConfig(() => {
       },
       'stretch',
     ),
-    justifyContent: new MapConfig(
+    justifyContent: new Prop(
       {
         normal: 'justify-normal',
         start: 'justify-start',
@@ -113,7 +115,7 @@ export const componentsConfig = defineConfig(() => {
       },
       'normal',
     ),
-    align: new MapConfig(
+    align: new Prop(
       {
         stretch: 'items-stretch',
         start: 'items-start',
@@ -136,7 +138,7 @@ export const componentsConfig = defineConfig(() => {
         padding,
       },
       card: {
-        borderRadius: borderRadius.withDefaultValue('lg'),
+        borderRadius: borderRadius.withDefaultValue('2xl'),
         color: color.withDefaultValue(['card', 'text']),
         padding: padding.withDefaultValue('2'),
       },

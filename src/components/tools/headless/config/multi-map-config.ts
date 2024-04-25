@@ -5,11 +5,11 @@ import {
   useClasses,
 } from '@rexar/core';
 import { Observable } from 'rxjs';
-import { AnyMapConfig, MapConfigKeys } from './map-config';
+import { AnyProp, MapConfigKeys } from './prop';
 
 export type MayBeArray<T> = T | T[];
 
-export type ConfigMap = Record<string, AnyMapConfig>;
+export type ConfigMap = Record<string, AnyProp>;
 
 export type ComponentProps<TMap extends ConfigMap> = {
   [TKey in keyof TMap]?: ValueOrObservableOrGetter<

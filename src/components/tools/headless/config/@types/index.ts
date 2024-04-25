@@ -1,14 +1,14 @@
 import { BaseProps } from '@rexar/core';
-import { AnyMapConfig } from '../map-config';
+import { AnyProp } from '../prop';
 import { FlexConfigMap, FlexItemConfigMap } from './flex';
 
 export type BaseConfigMap<
-  TShadows extends AnyMapConfig = AnyMapConfig,
-  TBorders extends AnyMapConfig = AnyMapConfig,
-  TBorderRadius extends AnyMapConfig = AnyMapConfig,
-  TMargin extends AnyMapConfig = AnyMapConfig,
-  TPadding extends AnyMapConfig = AnyMapConfig,
-  TColor extends AnyMapConfig = AnyMapConfig,
+  TShadows extends AnyProp = AnyProp,
+  TBorders extends AnyProp = AnyProp,
+  TBorderRadius extends AnyProp = AnyProp,
+  TMargin extends AnyProp = AnyProp,
+  TPadding extends AnyProp = AnyProp,
+  TColor extends AnyProp = AnyProp,
 > = {
   shadow: TShadows;
   border: TBorders;
