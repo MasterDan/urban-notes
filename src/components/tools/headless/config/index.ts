@@ -1,16 +1,15 @@
 import { Ref, computed, createProvider, ref } from '@rexar/core';
 import { map, switchMap, tap } from 'rxjs';
 import {
-  AnyBaseConfigMap,
-  AnyMultiThemeConfig,
-  AnyThemeConfig,
-  AnyUiConfig,
+  BaseConfigMap,
+  MultiThemeConfig,
+  ThemeConfig,
   UiConfig,
   UiConfigSeed,
 } from './@types';
 import { ComponentProps, MultiMapConfig } from './multi-map-config';
 
-export function defineConfig<TThemes extends AnyMultiThemeConfig>(
+export function defineConfig<TThemes extends MultiThemeConfig>(
   seed: UiConfigSeed<TThemes>,
 ): UiConfig<TThemes> {
   const seedObj = typeof seed === 'function' ? seed() : seed;
@@ -18,7 +17,7 @@ export function defineConfig<TThemes extends AnyMultiThemeConfig>(
   return seedObj;
 }
 
-export const configProvider = createProvider<AnyUiConfig>();
+export const configProvider = createProvider<UiConfig>();
 
 export const themeProvider = createProvider<Ref<string>>(ref('default'));
 
@@ -28,21 +27,21 @@ export const useCurrentTheme = () => {
     throw new Error('Headless config was not defined');
   }
   const theme$ = themeProvider.inject();
-  return computed<AnyThemeConfig>(() => ({
+  return computed<ThemeConfig>(() => ({
     ...config.default,
     ...(config[theme$.value] ?? {}),
   }));
 };
 
 export function useComponentClasses<
-  TProps extends ComponentProps<AnyBaseConfigMap>,
+  TProps extends ComponentProps<BaseConfigMap>,
 >(props: TProps, ...keys: string[]) {
   const config$ = useCurrentTheme();
   const classes$ = config$.pipe(
     map((c) => {
       let baseConfig = new MultiMapConfig(c.base);
       (keys as (keyof typeof c)[]).forEach((key) => {
-        const componentConfig = c[key] as AnyBaseConfigMap | undefined;
+        const componentConfig = c[key] as BaseConfigMap | undefined;
         if (componentConfig != null) {
           baseConfig = baseConfig.mergeWith(
             new MultiMapConfig(componentConfig),

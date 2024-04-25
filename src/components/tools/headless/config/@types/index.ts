@@ -1,13 +1,14 @@
 import { BaseProps } from '@rexar/core';
 import { AnyMapConfig } from '../map-config';
+import { FlexConfigMap, FlexItemConfigMap } from './flex';
 
 export type BaseConfigMap<
-  TShadows extends AnyMapConfig,
-  TBorders extends AnyMapConfig,
-  TBorderRadius extends AnyMapConfig,
-  TMargin extends AnyMapConfig,
-  TPadding extends AnyMapConfig,
-  TColor extends AnyMapConfig,
+  TShadows extends AnyMapConfig = AnyMapConfig,
+  TBorders extends AnyMapConfig = AnyMapConfig,
+  TBorderRadius extends AnyMapConfig = AnyMapConfig,
+  TMargin extends AnyMapConfig = AnyMapConfig,
+  TPadding extends AnyMapConfig = AnyMapConfig,
+  TColor extends AnyMapConfig = AnyMapConfig,
 > = {
   shadow: TShadows;
   border: TBorders;
@@ -17,43 +18,29 @@ export type BaseConfigMap<
   color: TColor;
 };
 
-export type AnyBaseConfigMap = BaseConfigMap<
-  AnyMapConfig,
-  AnyMapConfig,
-  AnyMapConfig,
-  AnyMapConfig,
-  AnyMapConfig,
-  AnyMapConfig
->;
-
-export type ThemeConfig<TBaseMap extends AnyBaseConfigMap> = {
+export type ThemeConfig<
+  TBaseMap extends BaseConfigMap = BaseConfigMap,
+  TFlexMap extends FlexConfigMap = FlexConfigMap,
+  TFlexItemMap extends FlexItemConfigMap = FlexItemConfigMap,
+> = {
   base: TBaseMap;
   card?: Partial<TBaseMap>;
+  flex?: TFlexMap;
+  flexItem?: TFlexItemMap;
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AnyThemeConfig = ThemeConfig<AnyBaseConfigMap>;
+export type MultiThemeConfig<TThemeConfig extends ThemeConfig = ThemeConfig> =
+  Record<string, TThemeConfig> & {
+    default: TThemeConfig;
+  };
 
-export type MultiThemeConfig<TThemeConfig extends AnyThemeConfig> = Record<
-  string,
-  TThemeConfig
-> & {
-  default: TThemeConfig;
-};
-
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AnyMultiThemeConfig = MultiThemeConfig<AnyThemeConfig>;
-
-export type UiConfig<TThemesMap extends AnyMultiThemeConfig> = {
+export type UiConfig<TThemesMap extends MultiThemeConfig = MultiThemeConfig> = {
   [TKey in keyof TThemesMap]: Partial<TThemesMap[TKey]>;
 } & {
   default: TThemesMap['default'];
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export type AnyUiConfig = UiConfig<any>;
-
-export type UiConfigSeed<TThemes extends AnyMultiThemeConfig> =
+export type UiConfigSeed<TThemes extends MultiThemeConfig> =
   | UiConfig<TThemes>
   | (() => UiConfig<TThemes>);
 

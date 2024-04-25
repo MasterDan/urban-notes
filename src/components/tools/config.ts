@@ -1,4 +1,5 @@
 import { defineConfig } from './headless/config';
+import { FlexConfigMap } from './headless/config/@types/flex';
 import { MapConfig } from './headless/config/map-config';
 
 export const componentsConfig = defineConfig(() => {
@@ -37,11 +38,12 @@ export const componentsConfig = defineConfig(() => {
 
   const color = new MapConfig(
     {
+      transparent: 'bg-transparent',
       background: 'bg-slate-900',
       card: 'bg-slate-900/75 backdrop-blur-xl',
       text: 'text-slate-400',
     },
-    'background',
+    'transparent',
   );
 
   const margin = new MapConfig(
@@ -74,6 +76,55 @@ export const componentsConfig = defineConfig(() => {
     '0',
   );
 
+  const flex: FlexConfigMap = {
+    display: new MapConfig({ flex: 'flex' }, 'flex'),
+    direction: new MapConfig(
+      {
+        'row': 'flex-row',
+        'row-reverse': 'flex-row-reverse',
+        'column': 'flex-col',
+        'column-reverse': 'flex-col-reverse',
+      },
+      'row',
+    ),
+    gap: new MapConfig(
+      { '1': 'gap-1', '2': 'gap-2', '3': 'gap-3', '4': 'gap-4' },
+      '3',
+    ),
+    justifyItems: new MapConfig(
+      {
+        start: 'justify-items-start',
+        end: 'justify-items-end',
+        center: 'justify-items-center',
+        stretch: 'justify-items-stretch',
+      },
+      'stretch',
+    ),
+    justifyContent: new MapConfig(
+      {
+        normal: 'justify-normal',
+        start: 'justify-start',
+        end: 'justify-end',
+        center: 'justify-center',
+        around: 'justify-around',
+        between: 'justify-between',
+        evenly: 'justify-evenly',
+        stretch: 'justify-stretch',
+      },
+      'normal',
+    ),
+    align: new MapConfig(
+      {
+        stretch: 'items-stretch',
+        start: 'items-start',
+        end: 'items-end',
+        center: 'items-center',
+        baseline: 'items-baseline',
+      },
+      'stretch',
+    ),
+  };
+
   return {
     default: {
       base: {
@@ -89,6 +140,7 @@ export const componentsConfig = defineConfig(() => {
         color: color.withDefaultValue(['card', 'text']),
         padding: padding.withDefaultValue('2'),
       },
+      flex,
     },
   };
 });
