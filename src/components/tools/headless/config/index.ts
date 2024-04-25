@@ -1,5 +1,5 @@
 import { Ref, computed, createProvider, ref } from '@rexar/core';
-import { map, switchMap, tap } from 'rxjs';
+import { map, switchMap } from 'rxjs';
 import {
   BaseConfigMap,
   MultiThemeConfig,
@@ -51,9 +51,6 @@ export function useComponentClasses<
       return baseConfig;
     }),
     switchMap((c) => c.propsToClasses(props)),
-    tap((c) => {
-      console.log('classes are', c);
-    }),
   );
   return classes$;
 }
