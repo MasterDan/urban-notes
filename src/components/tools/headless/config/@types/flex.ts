@@ -19,7 +19,11 @@ export type FlexConfigMap<
 export type FlexItemConfigMap<
   TGrow extends AnyProp = AnyProp,
   TShrink extends AnyProp = AnyProp,
+  TAlign extends AnyProp = AnyProp,
+  TJustify extends AnyProp = AnyProp,
 > = {
   grow: TGrow;
   shrink: TShrink;
+  alignSelf: TAlign;
+  justifySelf: TJustify;
 };

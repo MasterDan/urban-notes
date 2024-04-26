@@ -126,6 +126,41 @@ export const componentsConfig = defineConfig(() => {
       'stretch',
     ),
   };
+  const grow = new Prop(
+    {
+      'grow': 'grow',
+      '0': 'grow-0',
+    },
+    '0',
+  );
+  const shrink = new Prop(
+    {
+      'shrink': 'shrink',
+      '0': 'shrink-0',
+    },
+    '0',
+  );
+  const alignSelf = new Prop(
+    {
+      auto: 'self-auto',
+      start: 'self-start',
+      end: 'self-end',
+      center: 'self-center',
+      stretch: 'self-stretch',
+      baseline: 'self-baseline',
+    },
+    'auto',
+  );
+  const justifySelf = new Prop(
+    {
+      auto: 'justify-self-auto',
+      start: 'justify-self-start',
+      end: 'justify-self-end',
+      center: 'justify-self-center',
+      stretch: 'justify-self-stretch',
+    },
+    'auto',
+  );
 
   return {
     default: {
@@ -143,6 +178,12 @@ export const componentsConfig = defineConfig(() => {
         padding: padding.withDefaultValue('2'),
       },
       flex,
+      flexItem: {
+        grow,
+        shrink,
+        alignSelf,
+        justifySelf,
+      },
     },
   };
 });

@@ -6,7 +6,7 @@ import { useComponentClasses } from './config';
 export function defineFlex<TThemes extends MultiThemeConfig>(
   config: UiConfig<TThemes>,
 ) {
-  const { flex } = config.default;
+  const { flex, flexItem } = config.default;
   if (flex == null) {
     throw new Error(`'flex' section of config must be defined`);
   }
@@ -19,5 +19,18 @@ export function defineFlex<TThemes extends MultiThemeConfig>(
     return <div class={classes$}>{props.children}</div>;
   });
 
-  return { Flex };
+  if (flexItem == null) {
+    throw new Error(`"flexItem" section must be defined`);
+  }
+
+  const FlexItem = defineComponent<
+    ComponentProps<(typeof config)['default']['base']> &
+      ComponentProps<typeof flexItem>
+  >((props) => {
+    const classes$ = useComponentClasses(props, 'flexItem');
+
+    return <div class={classes$}>{props.children}</div>;
+  });
+
+  return { Flex, FlexItem };
 }
