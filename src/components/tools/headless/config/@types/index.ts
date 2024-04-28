@@ -25,6 +25,9 @@ export type ThemeConfig<
 > = {
   base: TBaseMap;
   card?: Partial<TBaseMap>;
+  cardHeader?: Partial<TBaseMap>;
+  cardBody?: Partial<TBaseMap>;
+  cardFooter?: Partial<TBaseMap>;
   flex?: TFlexMap;
   flexItem?: TFlexItemMap;
 };

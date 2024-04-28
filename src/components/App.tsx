@@ -9,8 +9,8 @@ export const App = defineComponent(() => (
   <>
     <Root
       content={() => (
-        <div class=" bg-slate-800 bg-opacity-30 h-full">
-          <Card>
+        <div style={{ height: '100%' }}>
+          <Card header={<h2>Header</h2>} footer={<h2>Footer</h2>}>
             <h1>Rexar app</h1>
             <h1>Rexar app</h1>
             <h1>Rexar app</h1>

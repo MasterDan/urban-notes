@@ -27,23 +27,21 @@ export const componentsConfig = defineConfig(() => {
   const borderRadius = new Prop(
     {
       'none': 'rounded-none',
-      'sm': 'rounded-sm',
-      'md': 'rounded-md',
-      'lg': 'rounded-lg',
-      'xl': 'rounded-xl',
-      '2xl': 'rounded-2xl',
-      '3xl': 'rounded-2xl',
-      'full': 'rounded-full',
+      'round': 'rounded-2xl',
+      'round-top': 'rounded-t-2xl',
+      'round-bottom': 'rounded-b-2xl',
     },
     'none',
   );
 
   const color = new Prop(
     {
-      transparent: 'bg-transparent',
-      background: 'bg-slate-900',
-      card: 'bg-slate-900/75 backdrop-blur-xl',
-      text: 'text-slate-400',
+      'transparent': 'bg-transparent',
+      'background': 'bg-slate-900',
+      'card': 'bg-slate-900/70 backdrop-blur-xl',
+      'card-header': 'bg-slate-900/75 backdrop-blur-xl',
+      'card-footer': 'bg-slate-900/75 backdrop-blur-xl',
+      'text': 'text-slate-400',
     },
     'transparent',
   );
@@ -173,8 +171,20 @@ export const componentsConfig = defineConfig(() => {
         padding,
       },
       card: {
-        borderRadius: borderRadius.withDefaultValue('2xl'),
+        borderRadius: borderRadius.withDefaultValue('round'),
+      },
+      cardHeader: {
+        color: color.withDefaultValue(['card-header', 'text']),
+        borderRadius: borderRadius.withDefaultValue('round-top'),
+        padding: padding.withDefaultValue('2'),
+      },
+      cardBody: {
         color: color.withDefaultValue(['card', 'text']),
+        padding: padding.withDefaultValue('2'),
+      },
+      cardFooter: {
+        color: color.withDefaultValue(['card-footer', 'text']),
+        borderRadius: borderRadius.withDefaultValue('round-bottom'),
         padding: padding.withDefaultValue('2'),
       },
       flex,
