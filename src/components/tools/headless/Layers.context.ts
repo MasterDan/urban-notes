@@ -1,6 +1,6 @@
 import { Ref, createProvider, onBeforeDestroy, ref } from '@rexar/core';
 import { map, throttleTime } from 'rxjs';
-import { Layer, LayerSeed } from './HLayers.layer';
+import { Layer, LayerSeed } from './Layers.layer';
 
 export class LayersContext {
   private layers: Ref<Map<string, Layer>>;

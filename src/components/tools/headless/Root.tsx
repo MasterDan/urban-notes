@@ -7,7 +7,7 @@ import {
 import { Observable } from 'rxjs';
 import { MultiThemeConfig, UiConfig } from './config/@types';
 import { configProvider, themeProvider } from './config';
-import { HLayers } from './HLayers';
+import { Layers } from './Layers';
 
 export function defineRoot<TThemes extends MultiThemeConfig>(
   config: UiConfig<TThemes>,
@@ -23,6 +23,6 @@ export function defineRoot<TThemes extends MultiThemeConfig>(
     }
     themeProvider.provide(theme$);
 
-    return <HLayers content={content} />;
+    return <Layers content={content} />;
   });
 }

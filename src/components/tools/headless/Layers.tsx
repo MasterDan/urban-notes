@@ -1,8 +1,8 @@
 import { defineComponent, useDynamic, useFor } from '@rexar/core';
 import { switchMap } from 'rxjs';
-import { LayersContext, layersContextProvider } from './HLayers.context';
+import { LayersContext, layersContextProvider } from './Layers.context';
 
-export const HLayers = defineComponent<{ content: () => JSX.Element }>(
+export const Layers = defineComponent<{ content: () => JSX.Element }>(
   ({ content }) => {
     const context = new LayersContext({
       order: 0,
@@ -10,10 +10,10 @@ export const HLayers = defineComponent<{ content: () => JSX.Element }>(
       content,
     });
     layersContextProvider.provide(context);
-    const Layers = useFor(context.layers$, (i) => `${i.name}`);
+    const LayersList = useFor(context.layers$, (i) => `${i.name}`);
     return (
       <div style={{ position: 'relative', width: '100vw', height: '100vh' }}>
-        <Layers
+        <LayersList
           each={({ item }) => {
             const LayerItems = useFor(
               item.pipe(switchMap((i) => i.content$)),
@@ -40,7 +40,7 @@ export const HLayers = defineComponent<{ content: () => JSX.Element }>(
               </div>
             );
           }}
-        ></Layers>
+        ></LayersList>
       </div>
     );
   },
