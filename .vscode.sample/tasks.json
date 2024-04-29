@@ -1,0 +1,44 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "kill: all",
+			"command": "echo ${input:terminate}",
+			"type": "shell",
+			"problemMatcher": []
+		},
+		{
+			"type": "npm",
+			"script": "dev",
+			"isBackground": true,
+			"problemMatcher": [
+				{
+					"owner": "npm",
+					"background": {
+						"endsPattern": "VITE.",
+						"beginsPattern": ".",
+						"activeOnStart": true
+					},
+					"pattern": {
+						"regexp": "."
+					}
+				}
+			],
+			"label": "ui:dev",
+			"detail": "dev"
+		},
+		{
+			"label": "ui:build",
+			"type": "npm",
+			"script": "build",
+		}
+	],
+	"inputs": [
+		{
+			"id": "terminate",
+			"type": "command",
+			"command": "workbench.action.tasks.terminate",
+			"args": "terminateAll"
+		}
+	]
+}
