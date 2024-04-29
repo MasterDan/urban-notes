@@ -48,9 +48,13 @@ export function useComponentClasses<
           );
         }
       });
+      console.log(keys, baseConfig.$map);
       return baseConfig;
     }),
     switchMap((c) => c.propsToClasses(props)),
   );
+  classes$.subscribe((i) => {
+    console.log('Classes:', keys, i);
+  });
   return classes$;
 }

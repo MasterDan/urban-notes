@@ -9,6 +9,9 @@ export type BaseConfigMap<
   TMargin extends AnyProp = AnyProp,
   TPadding extends AnyProp = AnyProp,
   TColor extends AnyProp = AnyProp,
+  THeight extends AnyProp = AnyProp,
+  TWidth extends AnyProp = AnyProp,
+  TBackdrop extends AnyProp = AnyProp,
 > = {
   shadow: TShadows;
   border: TBorders;
@@ -16,6 +19,9 @@ export type BaseConfigMap<
   margin: TMargin;
   padding: TPadding;
   color: TColor;
+  height: THeight;
+  width: TWidth;
+  backdrop: TBackdrop;
 };
 
 export type ThemeConfig<

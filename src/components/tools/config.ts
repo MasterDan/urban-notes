@@ -16,6 +16,7 @@ export const componentsConfig = defineConfig(() => {
   const border = new Prop(
     {
       '0': 'border-0',
+      'active:0': 'active:border-0 focus:border-0',
       'default': 'border',
       '2': 'border-2',
       '4': 'border-4',
@@ -27,6 +28,7 @@ export const componentsConfig = defineConfig(() => {
   const borderRadius = new Prop(
     {
       'none': 'rounded-none',
+      'round/2': 'rounded-xl',
       'round': 'rounded-2xl',
       'round-top': 'rounded-t-2xl',
       'round-bottom': 'rounded-b-2xl',
@@ -38,12 +40,22 @@ export const componentsConfig = defineConfig(() => {
     {
       'transparent': 'bg-transparent',
       'background': 'bg-slate-900',
-      'card': 'bg-slate-900/70 backdrop-blur-xl',
-      'card-header': 'bg-slate-900/75 backdrop-blur-xl',
-      'card-footer': 'bg-slate-900/75 backdrop-blur-xl',
+      'card': 'bg-slate-900/70 ',
+      'card-header': 'bg-slate-900/80 ',
+      'card-footer': 'bg-slate-900/80 ',
       'text': 'text-slate-400',
+      'input':
+        'bg-slate-600/45 focus:bg-slate-600/60 hover:bg-slate-600/60 transition duration-150 outline-none',
     },
     'transparent',
+  );
+
+  const backdrop = new Prop(
+    {
+      'none': '',
+      'blur-xl': 'backdrop-blur-xl',
+    },
+    'none',
   );
 
   const margin = new Prop(
@@ -66,15 +78,24 @@ export const componentsConfig = defineConfig(() => {
       '0': 'p-0',
       '0.5': 'p-0.5',
       '1': 'p-1',
+      'y:1': 'py-1',
       '1.5': 'p-1.5',
       '2': 'p-2',
+      'x:2': 'px-2',
+      'y:2': 'py-2',
       '2.5': 'p-2.5',
       '3': 'p-3',
+      'x:3': 'px-3',
       '3.5': 'p-3.5',
       '4': 'p-4',
+      'x:4': 'px-4',
     },
     '0',
   );
+
+  const height = new Prop({ default: '', full: 'h-full' }, 'default');
+
+  const width = new Prop({ default: '', full: 'w-full' }, 'default');
 
   const flex = {
     display: new Prop({ flex: 'flex' }, 'flex'),
@@ -167,27 +188,37 @@ export const componentsConfig = defineConfig(() => {
         borderRadius,
         shadow,
         color,
+        backdrop,
         margin,
         padding,
+        height,
+        width,
       },
       card: {
         borderRadius: borderRadius.withDefaultValue('round'),
+        backdrop: backdrop.withDefaultValue('blur-xl'),
       },
       cardHeader: {
         color: color.withDefaultValue(['card-header', 'text']),
         borderRadius: borderRadius.withDefaultValue('round-top'),
-        padding: padding.withDefaultValue('2'),
+        padding: padding.withDefaultValue(['y:2', 'x:3']),
       },
       cardBody: {
         color: color.withDefaultValue(['card', 'text']),
-        padding: padding.withDefaultValue('2'),
+        padding: padding.withDefaultValue(['y:2', 'x:3']),
       },
       cardFooter: {
         color: color.withDefaultValue(['card-footer', 'text']),
         borderRadius: borderRadius.withDefaultValue('round-bottom'),
-        padding: padding.withDefaultValue('2'),
+        padding: padding.withDefaultValue(['y:2', 'x:3']),
       },
       flex,
+      inputText: {
+        borderRadius: borderRadius.withDefaultValue('round/2'),
+        color: color.withDefaultValue(['input', 'text']),
+        padding: padding.withDefaultValue(['x:2', 'y:1']),
+        border: border.withDefaultValue(['0', 'active:0']),
+      },
       flexItem: {
         grow,
         shrink,

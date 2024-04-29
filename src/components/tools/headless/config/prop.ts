@@ -5,7 +5,7 @@ export type DefaultValueOf<TMap extends Record<string, string>> =
 export class Prop<TMap extends Record<string, string>> {
   constructor(
     private map: TMap,
-    private defaultValue: DefaultValueOf<TMap>,
+    public defaultValue: DefaultValueOf<TMap>,
   ) {
     if (Array.isArray(defaultValue) && defaultValue.length === 0) {
       throw new Error('You must provide at leas one default value');
@@ -22,7 +22,10 @@ export class Prop<TMap extends Record<string, string>> {
   get<TKeys extends (keyof TMap)[]>(...keys: TKeys): string {
     return keys.length === 0
       ? this.getDefault()
-      : keys.map((key) => this.map[key]).join(' ');
+      : keys
+          .map((key) => this.map[key])
+          .filter((x) => x != null && x.length > 0 && x.trim().length > 0)
+          .join(' ');
   }
 
   withDefaultValue(defaultValue: DefaultValueOf<TMap>): Prop<TMap> {

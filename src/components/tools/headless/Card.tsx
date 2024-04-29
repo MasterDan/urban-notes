@@ -5,10 +5,10 @@ import {
   toObservable,
   useDefaultValues,
 } from '@rexar/core';
-import { map } from 'rxjs';
+import { combineLatestWith, map } from 'rxjs';
 import { MultiThemeConfig, UiConfig } from './config/@types';
 import { ComponentProps } from './config/multi-map-config';
-import { useComponentClasses } from './config';
+import { useComponentClasses, useCurrentTheme } from './config';
 
 export type CardProps = {
   hideHeader?: ValueOrObservableOrGetter<boolean>;
@@ -22,10 +22,16 @@ export function defineCard<TThemes extends MultiThemeConfig>(
 ) {
   const CardHeader = defineComponent((props) => {
     const classes$ = useComponentClasses(props, 'cardHeader');
+
     return <div class={classes$}>{props.children}</div>;
   });
-  const CardBody = defineComponent((props) => {
+  const CardBody = defineComponent<
+    ComponentProps<(typeof config)['default']['base']>
+  >((props) => {
     const classes$ = useComponentClasses(props, 'cardBody');
+    classes$.subscribe((i) => {
+      console.log('body-classes', i, props);
+    });
     return <div class={classes$}>{props.children}</div>;
   });
   const CardFooter = defineComponent((props) => {
@@ -37,6 +43,7 @@ export function defineCard<TThemes extends MultiThemeConfig>(
     CardProps & ComponentProps<(typeof config)['default']['base']>
   >((props) => {
     const classes$ = useComponentClasses(props, 'card');
+    const theme$ = useCurrentTheme();
     const { header, footer, children } = props;
     const { hideHeader, hideFooter } = useDefaultValues(props as CardProps, {
       hideHeader: () => false,
@@ -48,13 +55,44 @@ export function defineCard<TThemes extends MultiThemeConfig>(
     const showFooter = toObservable(hideFooter).pipe(
       map((val) => !val && footer != null),
     );
+
+    const bodyRadius$ = theme$.pipe(
+      map((i) => ({
+        headClass: i.cardHeader?.borderRadius?.defaultValue as
+          | string
+          | string[],
+        footerClass: i.cardFooter?.borderRadius?.defaultValue as
+          | string
+          | string[],
+      })),
+      combineLatestWith(showHeader, showFooter),
+      map(([{ headClass, footerClass }, sh, sf]) => {
+        const result: string[] = [];
+        if (!sh && headClass) {
+          if (Array.isArray(headClass)) {
+            result.push(...headClass);
+          } else {
+            result.push(headClass);
+          }
+        }
+        if (!sf && footerClass) {
+          if (Array.isArray(footerClass)) {
+            result.push(...footerClass);
+          } else {
+            result.push(footerClass);
+          }
+        }
+        return result;
+      }),
+    );
     return (
       <div class={classes$}>
         <Show
           when={showHeader}
           content={() => <CardHeader>{header}</CardHeader>}
         />
-        <CardBody>{children}</CardBody>
+        {/* @ts-expect-error expected */}
+        <CardBody borderRadius={bodyRadius$}>{children}</CardBody>
         <Show
           when={showFooter}
           content={() => <CardFooter>{footer}</CardFooter>}

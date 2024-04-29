@@ -4,7 +4,7 @@ import {
   toObservable,
   useClasses,
 } from '@rexar/core';
-import { Observable } from 'rxjs';
+import { Observable, map, of } from 'rxjs';
 import { AnyProp, MapConfigKeys } from './prop';
 
 export type MayBeArray<T> = T | T[];
@@ -27,11 +27,16 @@ export class MultiMapConfig<TMap extends ConfigMap> {
   propsToClasses(props: ComponentProps<TMap>) {
     const observables = (Object.keys(this.$map) as (keyof typeof props)[]).map(
       (key) => {
-        const propValue = props[key]
-          ? this.$map[key].get(props[key] as string)
-          : this.$map[key].get();
+        const propValue: Observable<MayBeArray<string>> = props[key]
+          ? toObservable(
+              props[key] as ValueOrObservableOrGetter<MayBeArray<string>>,
+            ).pipe(
+              map((v) => (Array.isArray(v) ? v : [v])),
+              map((v) => this.$map[key].get(...v)),
+            )
+          : of(this.$map[key].get());
 
-        return toObservable(propValue) as Observable<MayBeArray<string>>;
+        return propValue;
       },
     );
     return useClasses(observables) as Observable<string>;
