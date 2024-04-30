@@ -88,7 +88,7 @@ export function defineCard<TThemes extends MultiThemeConfig>(
         footerClass:
           i.cardFooter == null
             ? []
-            : (i.cardFooter[t as keyof typeof i.cardFooter].borderRadius
+            : (i.cardFooter[t as keyof typeof i.cardFooter]?.borderRadius
                 ?.defaultValue as string | string[]),
       })),
       combineLatestWith(showHeader, showFooter),

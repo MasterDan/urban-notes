@@ -46,12 +46,24 @@ export type ThemeConfig<
   TBaseMap extends BaseConfigMap = BaseConfigMap,
   TFlexMap extends FlexConfigMap = FlexConfigMap,
   TFlexItemMap extends FlexItemConfigMap = FlexItemConfigMap,
+  TCard extends VariantConfigMap<Partial<TBaseMap>> = VariantConfigMap<
+    Partial<TBaseMap>
+  >,
+  TCardHeader extends VariantConfigMap<Partial<TBaseMap>> = VariantConfigMap<
+    Partial<TBaseMap>
+  >,
+  TCardBody extends VariantConfigMap<Partial<TBaseMap>> = VariantConfigMap<
+    Partial<TBaseMap>
+  >,
+  TCardFooter extends VariantConfigMap<Partial<TBaseMap>> = VariantConfigMap<
+    Partial<TBaseMap>
+  >,
 > = {
   base: TBaseMap;
-  card?: VariantConfigMap<Partial<TBaseMap>>;
-  cardHeader?: VariantConfigMap<Partial<TBaseMap>>;
-  cardBody?: VariantConfigMap<Partial<TBaseMap>>;
-  cardFooter?: VariantConfigMap<Partial<TBaseMap>>;
+  card?: TCard;
+  cardHeader?: TCardHeader;
+  cardBody?: TCardBody;
+  cardFooter?: TCardFooter;
   inputText?: Partial<TBaseMap>;
   flex?: TFlexMap;
   flexItem?: TFlexItemMap;

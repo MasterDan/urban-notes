@@ -47,7 +47,7 @@ export const App = defineComponent(() => (
                 </FlexItem>
               </Flex>
             </Card>
-            <Card>
+            <Card type="">
               <h1>Rexar app</h1>
             </Card>
           </Flex>

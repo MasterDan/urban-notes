@@ -69,7 +69,7 @@ export function useComponentClasses<TProps extends BaseProps>(
         baseConfig = baseConfig.mergeWith(
           new MultiMapConfig(
             isVariantMap(componentConfig)
-              ? componentConfig[variant]
+              ? componentConfig[variant] ?? componentConfig.default
               : componentConfig,
           ),
         );
