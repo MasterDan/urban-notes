@@ -36,9 +36,10 @@ export const App = defineComponent(() => (
               >
                 <h1>Rexar app</h1>
                 <FlexItem grow={'grow'}>
-                  <Card header={<>Inner Card</>}>
+                  <Card type="inner" header={<>Inner Card</>}>
                     <h1>Rexar app</h1>
                     <h1>Rexar app</h1>
+                    <InputText label="Text field" />
                   </Card>
                 </FlexItem>
                 <FlexItem alignSelf="start" justifySelf="center" grow={'grow'}>

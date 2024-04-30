@@ -1,13 +1,21 @@
-import { Ref, computed, createProvider, ref } from '@rexar/core';
-import { map, switchMap } from 'rxjs';
 import {
-  BaseConfigMap,
+  BaseProps,
+  Ref,
+  ValueOrObservableOrGetter,
+  computed,
+  createProvider,
+  ref,
+  toObservable,
+} from '@rexar/core';
+import { combineLatestWith, map, of, switchMap } from 'rxjs';
+import {
   MultiThemeConfig,
   ThemeConfig,
   UiConfig,
   UiConfigSeed,
+  VariantConfigMap,
 } from './@types';
-import { ComponentProps, MultiMapConfig } from './multi-map-config';
+import { ConfigMap, MultiMapConfig } from './multi-map-config';
 
 export function defineConfig<TThemes extends MultiThemeConfig>(
   seed: UiConfigSeed<TThemes>,
@@ -33,28 +41,43 @@ export const useCurrentTheme = () => {
   }));
 };
 
-export function useComponentClasses<
-  TProps extends ComponentProps<BaseConfigMap>,
->(props: TProps, ...keys: string[]) {
+function isVariantMap(
+  m: ConfigMap | VariantConfigMap<ConfigMap>,
+): m is VariantConfigMap<ConfigMap> {
+  return 'default' in m;
+}
+
+export function useComponentClasses<TProps extends BaseProps>(
+  props: TProps,
+  key: string,
+) {
   const config$ = useCurrentTheme();
+  const componentType = (props as Record<string, unknown>).type as
+    | ValueOrObservableOrGetter<string>
+    | undefined;
+  const variant$ =
+    componentType == null ? of('default') : toObservable(componentType);
   const classes$ = config$.pipe(
-    map((c) => {
+    combineLatestWith(variant$),
+    map(([c, variant]) => {
       let baseConfig = new MultiMapConfig(c.base);
-      (keys as (keyof typeof c)[]).forEach((key) => {
-        const componentConfig = c[key] as BaseConfigMap | undefined;
-        if (componentConfig != null) {
-          baseConfig = baseConfig.mergeWith(
-            new MultiMapConfig(componentConfig),
-          );
-        }
-      });
-      console.log(keys, baseConfig.$map);
+      const componentConfig = c[key as keyof typeof c] as
+        | ConfigMap
+        | VariantConfigMap<ConfigMap>
+        | undefined;
+      if (componentConfig != null) {
+        baseConfig = baseConfig.mergeWith(
+          new MultiMapConfig(
+            isVariantMap(componentConfig)
+              ? componentConfig[variant]
+              : componentConfig,
+          ),
+        );
+      }
+
       return baseConfig;
     }),
     switchMap((c) => c.propsToClasses(props)),
   );
-  classes$.subscribe((i) => {
-    console.log('Classes:', keys, i);
-  });
   return classes$;
 }

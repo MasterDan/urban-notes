@@ -41,8 +41,9 @@ export const componentsConfig = defineConfig(() => {
       'transparent': 'bg-transparent',
       'background': 'bg-slate-900',
       'card': 'bg-slate-900/70 ',
-      'card-header': 'bg-slate-900/80 ',
-      'card-footer': 'bg-slate-900/80 ',
+      'card-header&footer': 'bg-slate-900/80 ',
+      'card:inner': 'bg-slate-600/25 ',
+      'card-header&footer:inner': 'bg-slate-600/25',
       'text': 'text-slate-400',
       'input':
         'bg-slate-600/45 focus:bg-slate-600/60 hover:bg-slate-600/60 transition duration-150 outline-none',
@@ -195,22 +196,48 @@ export const componentsConfig = defineConfig(() => {
         width,
       },
       card: {
-        borderRadius: borderRadius.withDefaultValue('round'),
-        backdrop: backdrop.withDefaultValue('blur-xl'),
+        default: {
+          borderRadius: borderRadius.withDefaultValue('round'),
+          backdrop: backdrop.withDefaultValue('blur-xl'),
+        },
+        inner: {
+          borderRadius: borderRadius.withDefaultValue('round'),
+          backdrop: backdrop.withDefaultValue('blur-xl'),
+        },
       },
       cardHeader: {
-        color: color.withDefaultValue(['card-header', 'text']),
-        borderRadius: borderRadius.withDefaultValue('round-top'),
-        padding: padding.withDefaultValue(['y:2', 'x:3']),
+        default: {
+          color: color.withDefaultValue(['card-header&footer', 'text']),
+          borderRadius: borderRadius.withDefaultValue('round-top'),
+          padding: padding.withDefaultValue(['y:2', 'x:3']),
+        },
+        inner: {
+          color: color.withDefaultValue(['card-header&footer:inner', 'text']),
+          borderRadius: borderRadius.withDefaultValue('round-top'),
+          padding: padding.withDefaultValue(['y:2', 'x:3']),
+        },
       },
       cardBody: {
-        color: color.withDefaultValue(['card', 'text']),
-        padding: padding.withDefaultValue(['y:2', 'x:3']),
+        default: {
+          color: color.withDefaultValue(['card', 'text']),
+          padding: padding.withDefaultValue(['y:2', 'x:3']),
+        },
+        inner: {
+          color: color.withDefaultValue(['card:inner', 'text']),
+          padding: padding.withDefaultValue(['y:2', 'x:3']),
+        },
       },
       cardFooter: {
-        color: color.withDefaultValue(['card-footer', 'text']),
-        borderRadius: borderRadius.withDefaultValue('round-bottom'),
-        padding: padding.withDefaultValue(['y:2', 'x:3']),
+        default: {
+          color: color.withDefaultValue(['card-header&footer', 'text']),
+          borderRadius: borderRadius.withDefaultValue('round-bottom'),
+          padding: padding.withDefaultValue(['y:2', 'x:3']),
+        },
+        inner: {
+          color: color.withDefaultValue(['card-header&footer:inner', 'text']),
+          borderRadius: borderRadius.withDefaultValue('round-bottom'),
+          padding: padding.withDefaultValue(['y:2', 'x:3']),
+        },
       },
       flex,
       inputText: {

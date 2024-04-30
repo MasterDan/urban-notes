@@ -5,8 +5,12 @@ import {
   toObservable,
   useDefaultValues,
 } from '@rexar/core';
-import { combineLatestWith, map } from 'rxjs';
-import { MultiThemeConfig, UiConfig } from './config/@types';
+import { combineLatestWith, map, of } from 'rxjs';
+import {
+  MultiThemeConfig,
+  MultiTypeComponentProps,
+  UiConfig,
+} from './config/@types';
 import { ComponentProps } from './config/multi-map-config';
 import { useComponentClasses, useCurrentTheme } from './config';
 
@@ -20,30 +24,47 @@ export type CardProps = {
 export function defineCard<TThemes extends MultiThemeConfig>(
   config: UiConfig<TThemes>,
 ) {
-  const CardHeader = defineComponent((props) => {
-    const classes$ = useComponentClasses(props, 'cardHeader');
+  const { card, cardHeader, cardBody, cardFooter, base } = config.default;
+  if (card == null) {
+    throw new Error('"card" section must be filled"');
+  }
+  if (cardHeader == null) {
+    throw new Error('"cardHeader" section must be filled"');
+  }
+  if (cardBody == null) {
+    throw new Error('"cardBody" section must be filled"');
+  }
+  if (cardFooter == null) {
+    throw new Error('"cardFooter" section must be filled"');
+  }
 
+  const CardHeader = defineComponent<
+    MultiTypeComponentProps<typeof cardHeader>
+  >((props) => {
+    const classes$ = useComponentClasses(props, 'cardHeader');
     return <div class={classes$}>{props.children}</div>;
   });
   const CardBody = defineComponent<
-    ComponentProps<(typeof config)['default']['base']>
+    ComponentProps<typeof base> & MultiTypeComponentProps<typeof cardBody>
   >((props) => {
     const classes$ = useComponentClasses(props, 'cardBody');
-    classes$.subscribe((i) => {
-      console.log('body-classes', i, props);
-    });
     return <div class={classes$}>{props.children}</div>;
   });
-  const CardFooter = defineComponent((props) => {
+  const CardFooter = defineComponent<
+    MultiTypeComponentProps<typeof cardFooter>
+  >((props) => {
     const classes$ = useComponentClasses(props, 'cardFooter');
     return <div class={classes$}>{props.children}</div>;
   });
 
   return defineComponent<
-    CardProps & ComponentProps<(typeof config)['default']['base']>
+    CardProps &
+      ComponentProps<typeof base> &
+      MultiTypeComponentProps<typeof card>
   >((props) => {
     const classes$ = useComponentClasses(props, 'card');
     const theme$ = useCurrentTheme();
+    const type$ = props.type ? toObservable(props.type) : of('default');
     const { header, footer, children } = props;
     const { hideHeader, hideFooter } = useDefaultValues(props as CardProps, {
       hideHeader: () => false,
@@ -57,13 +78,18 @@ export function defineCard<TThemes extends MultiThemeConfig>(
     );
 
     const bodyRadius$ = theme$.pipe(
-      map((i) => ({
-        headClass: i.cardHeader?.borderRadius?.defaultValue as
-          | string
-          | string[],
-        footerClass: i.cardFooter?.borderRadius?.defaultValue as
-          | string
-          | string[],
+      combineLatestWith(type$),
+      map(([i, t]) => ({
+        headClass:
+          i.cardHeader == null
+            ? []
+            : (i.cardHeader[t as keyof typeof i.cardHeader]?.borderRadius
+                ?.defaultValue as string | string[]),
+        footerClass:
+          i.cardFooter == null
+            ? []
+            : (i.cardFooter[t as keyof typeof i.cardFooter].borderRadius
+                ?.defaultValue as string | string[]),
       })),
       combineLatestWith(showHeader, showFooter),
       map(([{ headClass, footerClass }, sh, sf]) => {
@@ -89,13 +115,17 @@ export function defineCard<TThemes extends MultiThemeConfig>(
       <div class={classes$}>
         <Show
           when={showHeader}
-          content={() => <CardHeader>{header}</CardHeader>}
+          // @ts-expect-error expected
+          content={() => <CardHeader type={type$}>{header}</CardHeader>}
         />
         {/* @ts-expect-error expected */}
-        <CardBody borderRadius={bodyRadius$}>{children}</CardBody>
+        <CardBody borderRadius={bodyRadius$} type={type$}>
+          {children}
+        </CardBody>
         <Show
           when={showFooter}
-          content={() => <CardFooter>{footer}</CardFooter>}
+          // @ts-expect-error expected
+          content={() => <CardFooter type={type$}>{footer}</CardFooter>}
         />
       </div>
     );
