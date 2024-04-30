@@ -1,6 +1,22 @@
 import { BaseProps } from '@rexar/core';
 import { AnyProp } from '../prop';
 import { FlexConfigMap, FlexItemConfigMap } from './flex';
+import { ComponentProps, ConfigMap } from '../multi-map-config';
+
+export type Variants<
+  T,
+  TDefault extends { default: T } & Record<string, T> = { default: T },
+> = TDefault & Record<string, T>;
+
+export type VariantConfigMap<
+  T extends ConfigMap,
+  TDefault extends { default: T } & Record<string, T> = { default: T },
+> = Variants<T, TDefault>;
+
+export type AnyVariantConfigMap = VariantConfigMap<ConfigMap>;
+
+export type MultiTypeComponentProps<TVMap extends AnyVariantConfigMap> =
+  ComponentProps<TVMap['default']> & { type: keyof TVMap };
 
 export type BaseConfigMap<
   TShadows extends AnyProp = AnyProp,
@@ -40,9 +56,7 @@ export type ThemeConfig<
 };
 
 export type MultiThemeConfig<TThemeConfig extends ThemeConfig = ThemeConfig> =
-  Record<string, TThemeConfig> & {
-    default: TThemeConfig;
-  };
+  Variants<TThemeConfig>;
 
 export type UiConfig<TThemesMap extends MultiThemeConfig = MultiThemeConfig> = {
   [TKey in keyof TThemesMap]: Partial<TThemesMap[TKey]>;
